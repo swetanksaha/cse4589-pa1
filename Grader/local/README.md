@@ -1,0 +1,10 @@
+# CSE 4/589: PA1 Grader [Client]
+
+## Setup
+
+```bash
+$ git clone --no-checkout https://ubwins.cse.buffalo.edu/git/swetankk/cse4589_pa1.git
+$ git config core.sparseCheckout true
+$ echo 'Grader/local/' >> .git/info/sparse-checkout
+$ git checkout master
+```
