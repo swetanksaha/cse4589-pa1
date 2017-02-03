@@ -158,7 +158,7 @@ if __name__ == '__main__':
     port = args.port[0]
 
     # Kill existing process (if any)
-    os.system("kill -9 $(netstat -tpal | grep :%s | awk '{print $NF}' | cut -d/ -f1)" % (port))
+    os.system("kill -9 $(netstat -tpal | grep :%s | awk '{print $NF}' | cut -d/ -f1) > /dev/null 2>&1" % (port))
 
     server = ThreadedHTTPServer(('0.0.0.0', port), GetHandler)
     print 'Starting grading server ...'
