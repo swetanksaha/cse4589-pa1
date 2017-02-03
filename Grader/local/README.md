@@ -4,6 +4,7 @@
 
 ```bash
 $ git clone --no-checkout https://ubwins.cse.buffalo.edu/git/swetankk/cse4589_pa1.git
+$ cd cse4589_pa1
 $ git config core.sparseCheckout true
 $ echo 'Grader/local/' >> .git/info/sparse-checkout
 $ git checkout master
