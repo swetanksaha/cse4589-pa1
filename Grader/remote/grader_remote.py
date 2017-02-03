@@ -26,6 +26,7 @@ from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 from SocketServer import ThreadingMixIn
 import urlparse
 import argparse
+import os
 
 from test_cases import *
 from utils import read_logfile
@@ -154,7 +155,11 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
 
 if __name__ == '__main__':
     args = parser.parse_args()
+    port = args.port[0]
 
-    server = ThreadedHTTPServer(('0.0.0.0', args.port[0]), GetHandler)
+    # Kill existing process (if any)
+    os.system("kill -9 $(netstat -tpal | grep :%s | awk '{print $NF}' | cut -d/ -f1)" % (port))
+
+    server = ThreadedHTTPServer(('0.0.0.0', port), GetHandler)
     print 'Starting grading server ...'
     server.serve_forever()

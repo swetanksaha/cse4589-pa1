@@ -19,16 +19,17 @@
 
 grading_server_list=$1
 remote_grader_path=$2
-port=$3
+python=$3
+port=$4
 
-user=$4
-id=$5
+user=$5
+id=$6
 
 cmd="gnome-terminal --maximize "
 IFS=","
 for server in $grading_server_list
 do
-    cmd+="--tab --command 'ssh -i ${id} ${user}@${server} -t \"cd ${remote_grader_path};killall grader_remote.py;./grader_remote.py -p ${port};/bin/tcsh\"' "
+    cmd+="--tab --command 'ssh -i ${id} ${user}@${server} -t \"cd ${remote_grader_path};${python} grader_remote.py -p ${port};/bin/tcsh\"' "
 done
 
 echo $cmd
