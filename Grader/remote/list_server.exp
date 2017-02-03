@@ -1,0 +1,16 @@
+#!/usr/bin/expect
+
+set binary [lindex $argv 0];
+set s_or_c [lindex $argv 1];
+set port [lindex $argv 2]
+
+set timeout 1
+
+spawn $binary $s_or_c $port
+
+sleep 14
+expect "*" { send "LIST\n" }
+sleep 1
+exec kill -9 [exp_pid]
+
+interact

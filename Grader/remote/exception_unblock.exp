@@ -1,0 +1,24 @@
+#!/usr/bin/expect
+
+set binary [lindex $argv 0];
+set s_or_c [lindex $argv 1];
+set port [lindex $argv 2];
+set server_ip [lindex $argv 3];
+set server_port [lindex $argv 4];
+
+set timeout 1
+
+spawn $binary $s_or_c $port
+
+expect "*" { send "LOGIN $server_ip $server_port\n" }
+sleep 1
+expect "*" { send "UNBLOCK 128.205.3\n" }
+sleep 1
+expect "*" { send "UNBLOCK 8.8.8.8\n" }
+sleep 1
+expect "*" { send "UNBLOCK 128.205.36.36\n" }
+sleep 1
+expect "*" { send "UNBLOCK 128.205.36.33\n" }
+sleep 1
+
+interact

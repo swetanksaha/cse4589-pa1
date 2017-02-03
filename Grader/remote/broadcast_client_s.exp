@@ -1,0 +1,23 @@
+#!/usr/bin/expect
+
+set binary [lindex $argv 0];
+set s_or_c [lindex $argv 1];
+set port [lindex $argv 2];
+set server_ip [lindex $argv 3];
+set server_port [lindex $argv 4];
+set num_messages [lindex $argv 5];
+set msg [lindex $argv 6];
+
+set timeout 1
+
+spawn $binary $s_or_c $port
+
+expect "*" { send "LOGIN $server_ip $server_port\n" }
+sleep 5
+for {set x 0} {$x<$num_messages} {incr x} {
+   expect "*" { send "BROADCAST $msg\n" }
+   sleep 1
+}
+exec kill -9 [exp_pid]
+
+interact

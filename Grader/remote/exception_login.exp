@@ -1,0 +1,20 @@
+#!/usr/bin/expect
+
+set binary [lindex $argv 0];
+set s_or_c [lindex $argv 1];
+set port [lindex $argv 2];
+
+set timeout 1
+
+spawn $binary $s_or_c $port
+
+expect "*" { send "LOGIN 128.205.36.46 abcd\n" }
+sleep 1
+expect "*" { send "LOGIN 128.205.36 1234\n" }
+sleep 1
+expect "*" { send "LOGIN 128.205 efgh\n" }
+sleep 1
+expect "*" { send "LOGIN 0.0.0.0 68243\n" }
+sleep 1
+
+interact
