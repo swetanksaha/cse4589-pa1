@@ -42,7 +42,7 @@ if __name__ == '__main__':
     cfg = utils.readConfiguration(args.config[0])
 
     utils.print_regular('Initializing grading servers ...')
-    subprocess.call(['./init_remote_grader.sh', ','.join(utils.GRADING_SERVERS_HOSTNAME), cfg.get('GradingServer', 'dir-grader'),
+    remote = subprocess.Popen(['./init_remote_grader.sh', ','.join(utils.GRADING_SERVERS_HOSTNAME), cfg.get('GradingServer', 'dir-grader'),
                     cfg.get('GradingServer', 'path-python'), str(utils.GRADING_SERVER_PORT), cfg.get('SSH', 'user'), cfg.get('SSH', 'id')])
 
     # Wait for all servers to init.
@@ -53,3 +53,5 @@ if __name__ == '__main__':
 
     import pa1_grader
     getattr(pa1_grader, test_name)(binary)
+
+    remote.kill()

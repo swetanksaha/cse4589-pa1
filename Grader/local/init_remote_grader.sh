@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with CSE 489/589 Grader. If not, see <http://www.gnu.org/licenses/>.
 #
-# Dependencies: gnome, sshpass, ssh, gui
+# Dependencies: gnome, ssh
 
 grading_server_list=$1
 remote_grader_path=$2
