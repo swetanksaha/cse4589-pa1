@@ -26,6 +26,7 @@ import sys
 import os
 import subprocess
 import time
+import random
 
 import utils
 
@@ -33,8 +34,12 @@ parser = argparse.ArgumentParser(description='CSE 489/589 Grader Controller v'+_
 
 requiredArgs = parser.add_argument_group('required named arguments')
 requiredArgs.add_argument('-c', '--config', dest='config', type=argparse.FileType('r'), nargs=1, help='configuration file', required=True)
-requiredArgs.add_argument('-s', '--student', dest='student', type=str, nargs=1 , help='path to assignment folder: e.g. CSE489/jane_doe', required=True)
+requiredArgs.add_argument('-s', '--submission', dest='submission', type=str, nargs=1 , help='path to submission tarball', required=True)
 requiredArgs.add_argument('-t', '--test', dest='test', type=str, nargs=1, help='test name', required=True)
+
+optionalArgs = parser.add_argument_group('optional named arguments')
+requiredArgs.add_argument('-nu', '--no-upload', dest='no_upload', action='store_true', help='suppress file upload')
+requiredArgs.add_argument('-nb', '--no-build', dest='no_build', action='store_true', help='suppress submission build')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -42,16 +47,38 @@ if __name__ == '__main__':
     cfg = utils.readConfiguration(args.config[0])
 
     utils.print_regular('Initializing grading servers ...')
-    remote = subprocess.Popen(['./init_remote_grader.sh', ','.join(utils.GRADING_SERVERS_HOSTNAME), cfg.get('GradingServer', 'dir-grader'),
-                    cfg.get('GradingServer', 'path-python'), str(utils.GRADING_SERVER_PORT), cfg.get('SSH', 'user'), cfg.get('SSH', 'id')])
+    utils.GRADING_SERVER_PORT = random.randint(55000, 65000)
+    launcher_port = cfg.getint('HTTPLauncher', 'port')
+    tarball = args.submission[0]
+    #utils.GRADING_SERVERS_HOSTNAME = ['stones.cse.buffalo.edu']
+    for server in utils.GRADING_SERVERS_HOSTNAME:
+        print
+        print server
+        # Upload submission
+        if not args.no_upload:
+            utils.print_regular('Uploading submission ...')
+            print subprocess.check_output(['curl', 'http://'+server+':'+str(launcher_port), '-F', 'submit=@'+tarball])
+
+        # Build submission
+        if not args.no_build:
+            utils.print_regular('Building submission ...')
+            message = {'action': 'build', 'tarball': os.path.basename(tarball)}
+            print utils.doGET(server, str(launcher_port),  message)
+
+        # Init. server
+        utils.print_regular('Starting grading server ...')
+        message = {'action': 'init',
+                    'remote_grader_path': cfg.get('GradingServer', 'dir-grader'),
+                    'python': cfg.get('GradingServer', 'path-python'),
+                    'port': str(utils.GRADING_SERVER_PORT)}
+        print utils.doGET(server, launcher_port, message)
 
     # Wait for all servers to init.
     time.sleep(3)
 
-    binary = os.path.join(*[cfg.get('GradingServer', 'dir-local'), args.student[0], cfg.get('Grader', 'binary')])
+    remote_grading_dir = utils.doGET(server, launcher_port, {'action': 'get-gdir'})
+    binary = os.path.join(*[remote_grading_dir, os.path.splitext(os.path.basename(tarball))[0], cfg.get('Grader', 'binary')])
     test_name = args.test[0]
 
     import pa1_grader
     getattr(pa1_grader, test_name)(binary)
-
-    remote.kill()

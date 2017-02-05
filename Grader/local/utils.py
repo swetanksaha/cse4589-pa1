@@ -22,6 +22,7 @@ import socket
 import ConfigParser
 import re
 import random
+import urllib
 
 GRADING_SERVER_PORT = None
 GRADING_SERVERS_HOSTNAME = []
@@ -47,7 +48,6 @@ def readConfiguration(config_file):
 
     print_regular('Reading configuration file: '+'\033[0m'+config_file.name+'\033[0m'+' ...')
 
-    GRADING_SERVER_PORT = config.getint('GradingServer', 'port')
     GRADING_SERVERS_HOSTNAME = [server[1] for server in config.items('GradingServerList')]
     GRADING_SERVERS_IP = [resolveIP(server[1]) for server in config.items('GradingServerList')]
 
@@ -76,3 +76,7 @@ def extractOutputError(command, log_output, mode='one'):
 
 def random_port():
     return random.randint(1000, 50000)
+
+def doGET(URL, port, message):
+    query_str = urllib.urlencode(message)
+    return urllib.urlopen('http://'+URL+':'+str(port)+'?'+query_str).read()

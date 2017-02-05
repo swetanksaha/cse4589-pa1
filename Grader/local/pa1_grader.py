@@ -47,7 +47,7 @@ def startup(binary):
 def author(binary):
     score = 0.0
 
-    student_ubit = binary.split(os.sep)[-2]
+    student_ubit = binary.split(os.sep)[-2].split('_')[0]
 
     message = ['AUTHOR', binary, 's', '6354']
     output = extractOutputSuccess('AUTHOR', run_on_server('stones.cse.buffalo.edu', message))
