@@ -81,6 +81,10 @@ class HTTPHandler(BaseHTTPRequestHandler):
         if action == 'get-gdir':
             response = gdir
 
+        if action == 'terminate':
+            port = message.get('port')[0]
+            os.system("kill -9 $(netstat -tpal | grep :%s | awk '{print $NF}' | cut -d/ -f1) > /dev/null 2>&1" % (port))
+
         self.send_response(200)
         self.end_headers()
         self.wfile.write(response)

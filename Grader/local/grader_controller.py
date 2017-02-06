@@ -50,7 +50,7 @@ if __name__ == '__main__':
     utils.GRADING_SERVER_PORT = random.randint(55000, 65000)
     launcher_port = cfg.getint('HTTPLauncher', 'port')
     tarball = args.submission[0]
-    #utils.GRADING_SERVERS_HOSTNAME = ['stones.cse.buffalo.edu']
+
     for server in utils.GRADING_SERVERS_HOSTNAME:
         print
         print server
@@ -73,8 +73,9 @@ if __name__ == '__main__':
                     'port': str(utils.GRADING_SERVER_PORT)}
         print utils.doGET(server, launcher_port, message)
 
-    # Wait for all servers to init.
-    time.sleep(3)
+    try:
+        # Wait for all servers to init.
+        time.sleep(3)
 
     remote_grading_dir = utils.doGET(server, launcher_port, {'action': 'get-gdir'})
     binary = os.path.join(*[remote_grading_dir, os.path.splitext(os.path.basename(tarball))[0], cfg.get('Grader', 'binary')])
