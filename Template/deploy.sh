@@ -17,13 +17,13 @@
 #
 
 if [ "$#" -ne 3 ]; then
-    echo "Usage: deploy HOSTNAME USER PATH"
+    echo "Usage: deploy HOSTNAME USER UPLOAD-PATH"
     exit
 fi
 
 hostname=$1
 user=$2
-path=$3
+upath=$3
 
 # Package
 cd C && tar -c ubitname/ -f assignment1_template_c.tar --exclude-vcs
@@ -42,8 +42,12 @@ cp assignment1_update_grader assignment1_update_grader.sh
 sed -i "s/host/$hostname/g" assignment1_update_grader.sh
 
 # Upload
-scp C/assignment1_template_c.tar C++/assignment1_template_cpp.tar assignment1_init_script.sh assignment1_update_grader.sh $user@$hostname:$path
-scp -r grader $user@$hostname:$path/
+scp C/assignment1_template_c.tar C++/assignment1_template_cpp.tar assignment1_init_script.sh assignment1_package.sh assignment1_update_grader.sh $user@$hostname:$upath
+scp -r grader $user@$hostname:$upath/
 
+# Cleanup
 rm C/assignment1_template_c.tar
 rm C++/assignment1_template_cpp.tar
+rm assignment1_init_script.sh
+rm assignment1_update_grader.sh
+rm -rf grader/
