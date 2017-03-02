@@ -14,7 +14,7 @@ spawn $binary $s_or_c $port
 expect "*" { send "LOGIN $server_ip $server_port\n" }
 sleep 1
 expect "*" { send "BLOCK $server_to_block\n" }
-sleep 2
+sleep 4
 expect "*" { send "UNBLOCK $server_to_block\n" }
 
 interact
