@@ -19,7 +19,7 @@
 __author__ = "Swetank Kumar Saha (swetankk@buffalo.edu)"
 __copyright__ = "Copyright (C) 2017 Swetank Kumar Saha"
 __license__ = "GNU GPL"
-__version__ = "1.0"
+__version__ = "1.3"
 
 import argparse
 import sys
