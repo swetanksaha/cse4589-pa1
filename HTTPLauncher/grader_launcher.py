@@ -47,14 +47,21 @@ def upload_file(submit_file):
     del file_data
 
 def build_submission(filename):
-    student_dir = os.path.join(gdir, os.path.splitext(filename)[0])
-    if not os.path.exists(student_dir): os.makedirs(student_dir)
+    success = True
+    try:
+        student_dir = os.path.join(gdir, os.path.splitext(filename)[0])
+        if not os.path.exists(student_dir): os.makedirs(student_dir)
 
-    tar = tarfile.open(os.path.join(udir, filename))
-    tar.extractall(path=student_dir)
-    tar.close()
+        tar = tarfile.open(os.path.join(udir, filename))
+        tar.extractall(path=student_dir)
+    except:
+        success = False
+    finally:
+        tar.close()
 
-    os.system('cd %s && make clean && make' % (student_dir))
+    if os.system('cd %s && make clean && make' % (student_dir)) != 0: success = False
+
+    return success
 
 def init_grading_server(remote_grader_path, python, port):
     subprocess.Popen('cd %s;%s grader_remote.py -p %s' % (remote_grader_path, python, port), shell=True)
@@ -70,13 +77,16 @@ class HTTPHandler(BaseHTTPRequestHandler):
 
         if action == 'build':
             tarball = message.get('tarball')[0]
-            build_submission(tarball)
+            if not build_submission(tarball): response = 'FAILED'
 
         if action == 'init':
-            remote_grader_path = message.get('remote_grader_path')[0]
-            python = message.get('python')[0]
-            port = message.get('port')[0]
-            init_grading_server(remote_grader_path, python, port)
+            try:
+                remote_grader_path = message.get('remote_grader_path')[0]
+                python = message.get('python')[0]
+                port = message.get('port')[0]
+                init_grading_server(remote_grader_path, python, port)
+            except:
+                response = 'FAILED'
 
         if action == 'get-gdir':
             response = gdir

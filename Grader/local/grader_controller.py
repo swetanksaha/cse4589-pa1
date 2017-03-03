@@ -63,7 +63,9 @@ if __name__ == '__main__':
         if not args.no_build:
             utils.print_regular('Building submission ...')
             message = {'action': 'build', 'tarball': os.path.basename(tarball)}
-            print utils.doGET(server, str(launcher_port),  message)
+            response = utils.doGET(server, str(launcher_port),  message)
+            print response
+            if response == 'FAILED': sys.exit(1)
 
         # Init. server
         utils.print_regular('Starting grading server ...')
@@ -71,15 +73,27 @@ if __name__ == '__main__':
                     'remote_grader_path': cfg.get('GradingServer', 'dir-grader'),
                     'python': cfg.get('GradingServer', 'path-python'),
                     'port': str(utils.GRADING_SERVER_PORT)}
-        print utils.doGET(server, launcher_port, message)
+        response = utils.doGET(server, launcher_port, message)
+        print response
+        if response == 'FAILED': sys.exit(1)
 
     try:
         # Wait for all servers to init.
         time.sleep(3)
 
-    remote_grading_dir = utils.doGET(server, launcher_port, {'action': 'get-gdir'})
-    binary = os.path.join(*[remote_grading_dir, os.path.splitext(os.path.basename(tarball))[0], cfg.get('Grader', 'binary')])
-    test_name = args.test[0]
+        remote_grading_dir = utils.doGET(server, launcher_port, {'action': 'get-gdir'})
+        binary = os.path.join(*[remote_grading_dir, os.path.splitext(os.path.basename(tarball))[0], cfg.get('Grader', 'binary')])
+        test_name = args.test[0]
+
+        import pa1_grader
+        print
+        utils.print_regular('Grading for: %s ...' % (test_name))
+        getattr(pa1_grader, test_name)(binary)
+    except:
+        traceback.print_exc()
+    finally:
+        # Wait for any left-over threads to finish
+        while(len(threading.enumerate()) > 1): continue
 
     import pa1_grader
     getattr(pa1_grader, test_name)(binary)
