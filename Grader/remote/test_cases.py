@@ -230,7 +230,6 @@ def grade_statistics(binary, s_or_c, port, s_ip="", s_port="", sender_string="")
 
     return read_logfile(binary, port)
 
-
 def grade_exception_login(binary, s_or_c, port):
     command = "expect -f exception_login.exp "+binary+" "+s_or_c+" "+str(port)
     process = subprocess.Popen(command, shell=True)
