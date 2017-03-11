@@ -18,7 +18,6 @@ import copy
 import itertools
 import random
 from collections import Counter
-from pprint import pprint
 from random import choice
 import string
 import sys
@@ -34,11 +33,11 @@ from utils import *
 def startup(binary):
     score = 0.0
 
-    message = ['STARTUP', binary, 's', '5678']
+    message = ['STARTUP', binary, 's', str(random_port())]
     if run_on_servers(message) == ['True']*5:
         score += 2.5
 
-    message = ['STARTUP', binary, 'c', '7845']
+    message = ['STARTUP', binary, 'c', str(random_port())]
     if run_on_servers(message) == ['True']*5:
         score += 2.5
 
@@ -101,7 +100,7 @@ def port(binary):
         output = extractOutputSuccess('PORT', run_on_server(server, message))
         if output:
             if parsePORT(output) == port:
-                score += 0.5
+                score += 0.25
 
     for index in range(5):
         server = GRADING_SERVERS_HOSTNAME[index]
@@ -111,7 +110,7 @@ def port(binary):
         output = extractOutputSuccess('PORT', run_on_server(server, message))
         if output:
             if parsePORT(output) == port:
-                score += 0.5
+                score += 0.25
 
     print score
 
@@ -146,7 +145,7 @@ def list_server_output(server_list, port_list):
 
     return output
 
-def list(binary):
+def _list(binary):
     score = 0.0
 
     server_list = copy.deepcopy(GRADING_SERVERS_HOSTNAME)
@@ -187,17 +186,7 @@ def list(binary):
         except: pass
 
         if cmp(client_output, list_client_output(server_list, port_list)) == 0: score += 1.0
-        else:
-            print 'Client:'
-            pprint(client_output)
-            print
-            pprint(list_client_output(server_list, port_list))
         if cmp(server_output, list_server_output(server_list, port_list)) == 0: score += 1.0
-        else:
-            print 'Server:', app_server
-            pprint(server_output)
-            print
-            pprint(list_server_output(server_list, port_list))
 
         server_list.append(app_server)
         time.sleep(3)
@@ -252,10 +241,6 @@ def refresh(binary):
 
     for output in client_output:
         if cmp(output, list_server_output(server_list, port_list)) == 0: score += 1.25
-        else:
-            pprint(output)
-            print '-----'
-            pprint(list_server_output(server_list, port_list))
 
     print score
 
@@ -307,30 +292,31 @@ def send(binary):
 
         c_threads = []
         c_retval_q = Queue.Queue()
+        c_id = 1
         for server in server_list[1:]:
             port = port_list.pop(0)
             message = ['SEND', binary, 'c', str(port), app_server_ip, server_port]
-            c_thread = threading.Thread(target=lambda queue, svr, msg: queue.put(run_on_server(svr, msg)), args=(c_retval_q, server, message))
+            c_thread = threading.Thread(target=lambda queue, svr, msg, c_i: queue.put((c_i, run_on_server(svr, msg))), args=(c_retval_q, server, message, c_id))
             c_thread.start()
             c_threads.append(c_thread)
             port_list.append(port)
+            c_id += 1
 
         time.sleep(2)
 
         # Sending Server
         send_server = server_list[0]
         send_server_port = str(random_port())
-        #ASCII = ''.join(chr(x) for x in range(32,127)).replace(';','').replace(':','')\n\t\r!#$%&\()*+,-./<=>?@[\\]^_{|}~
         ASCII_easy = string.digits+string.ascii_letters
         ASCII_hard = string.digits+string.ascii_letters+' !#%&();*+,-./<=>?@^_{}~'
         short_msg = []
         big_msg = []
         for index in range(3):
             msg = ''.join(choice(ASCII_easy) for _ in range(126))
-            msg = 'x'+msg+'y'
+            msg = msg
             short_msg.append(msg)
             msg = ''.join(choice(ASCII_hard) for _ in range(254))
-            msg = 'x'+msg+'y'
+            msg = msg
             big_msg.append(msg)
 
         ssend_message = ['SSEND', binary, 'c', str(send_server_port), app_server_ip, server_port]
@@ -349,8 +335,11 @@ def send(binary):
             t.join()
 
         # Collect all output
-        while not c_retval_q.empty():
-            clients_output.append(extractOutputSuccess('RECEIVED', c_retval_q.get(), mode='all'))
+        c_retval_list = list(c_retval_q.queue)
+        c_retval_list = sorted(c_retval_list, key=lambda x: x[0])
+        c_retval_list = [x[1] for x in c_retval_list]
+        for out in c_retval_list:
+            clients_output.append(extractOutputSuccess('RECEIVED', out, mode='all'))
         server_output = extractOutputSuccess('RELAYED', s_retval_q.get(), mode='all')
 
         server_output = [parseRELAYED(output) for output in server_output]
@@ -362,31 +351,14 @@ def send(binary):
         expected_server_output = send_server_output(send_server, server_list, short_msg, big_msg)
         expected_client_output = send_client_output(send_server, server_list, short_msg, big_msg)
 
-        print
-        pprint(server_output)
-        pprint(expected_server_output)
-        print
-        pprint(client_output)
-        pprint(expected_client_output)
-
         #Match Server Output
         for srv_msg, exp_msg in itertools.izip(server_output, expected_server_output):
             if cmp(srv_msg, exp_msg) == 0: score += (7.5/6.0)/2.0
-            else:
-                print
-                pprint(srv_msg)
-                print
-                pprint(exp_msg)
 
         #Match Client output
         for client, exp_client in itertools.izip(client_output, expected_client_output):
             for cl_msg, exp_msg in itertools.izip(client, exp_client):
                 if cmp(cl_msg, exp_msg) == 0: score += (7.5/6.0)/2.0
-                else:
-                    print
-                    pprint(cl_msg)
-                    print
-                    pprint(exp_msg)
 
         server_list.append(app_server)
 
@@ -451,13 +423,6 @@ def broadcast(binary):
 
     expected_server_output = [[send_server_ip, '255.255.255.255', bcast_msg] for _ in range(5)]
     expected_client_output = [[[send_server_ip, bcast_msg] for _ in range(5)] for _ in range(3)]
-
-    print
-    pprint(server_output)
-    pprint(expected_server_output)
-    print
-    pprint(client_output)
-    pprint(expected_client_output)
 
     #Match Server Output
     for srv_msg, exp_msg in itertools.izip(server_output, expected_server_output):
@@ -584,8 +549,6 @@ def unblock(binary):
     message = ['UUNBLOCK', binary, 'c', blocking_port, app_server_ip, app_server_port, GRADING_SERVERS_IP[GRADING_SERVERS_HOSTNAME.index(blocked_server)]]
     client_output = extractOutputSuccess('RECEIVED', run_on_server(blocking_server, message), mode='all')
 
-    print client_output
-
     if len(client_output) == 1:
         if cmp(parseRECEIVED(client_output[0]), [GRADING_SERVERS_IP[GRADING_SERVERS_HOSTNAME.index(blocked_server)], 'HiThere']) == 0: score += 2.5
 
@@ -623,12 +586,6 @@ def logout(binary):
     s_thread.join()
 
     server_output = parseLIST(extractOutputSuccess('LIST', s_retval_q.get()))
-
-    print
-    print server_output
-    print
-    print client_output
-    print
 
     # Sort the output
     try:
@@ -671,7 +628,7 @@ def buffer(binary):
     message = ['LOGFILE', binary, str(recv_server_port)]
     server_output_1 = run_on_server(recv_server, message)
 
-    time.sleep(7)
+    time.sleep(9)
     #Query 2
     message = ['LOGFILE', binary, str(recv_server_port)]
     server_output_2 = run_on_server(recv_server, message)
@@ -694,8 +651,8 @@ def statistics_server_output(server_list, send_server):
     output = []
     for server in server_list:
         if server == send_server:
-            output.append([server, '6', '0', 'offline'])
-        else: output.append([server, '0', '2', 'online'])
+            output.append([server, '6', '0', 'logged-out'])
+        else: output.append([server, '0', '2', 'logged-in'])
 
     return output
 
@@ -766,9 +723,6 @@ def statistics(binary):
 
         expected_server_output = statistics_server_output(server_list, send_server)
 
-        print server_output
-        print expected_server_output
-
         try:
             if len(server_output) == len(expected_server_output):
                 for host in server_output:
@@ -788,7 +742,6 @@ def exception_login(binary):
 
     message = ['EXCEPTION-LOGIN', binary, 'c', app_server_port]
     output = extractOutputError('LOGIN', run_on_server(app_server, message), mode='all')
-    print output
 
     expected = ['','','','']
 
@@ -851,8 +804,6 @@ def exception_block(binary):
     output_s = extractOutputSuccess('BLOCK', output, 'all')
     expected_e = ['','','']
     expected_s = ['']
-
-    print output
 
     for index in range(len(expected_e)):
         try:
@@ -930,10 +881,8 @@ def bonus(binary):
 
     message = ['CBONUS', binary, 'cse4589test.txt']
     if run_on_server(recv_client, message) == 'True': score += 10.0
-    else: print 'TXT Failed'
 
     message = ['CBONUS', binary, 'cse4589test.pdf']
     if run_on_server(recv_client, message) == 'True': score += 10.0
-    else: print 'PDF Failed'
 
     print score
