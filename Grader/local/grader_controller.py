@@ -38,8 +38,8 @@ requiredArgs.add_argument('-s', '--submission', dest='submission', type=str, nar
 requiredArgs.add_argument('-t', '--test', dest='test', type=str, nargs=1, help='test name', required=True)
 
 optionalArgs = parser.add_argument_group('optional named arguments')
-requiredArgs.add_argument('-nu', '--no-upload', dest='no_upload', action='store_true', help='suppress file upload')
-requiredArgs.add_argument('-nb', '--no-build', dest='no_build', action='store_true', help='suppress submission build')
+optionalArgs.add_argument('-nu', '--no-upload', dest='no_upload', action='store_true', help='suppress file upload')
+optionalArgs.add_argument('-nb', '--no-build', dest='no_build', action='store_true', help='suppress submission build')
 
 if __name__ == '__main__':
     args = parser.parse_args()
