@@ -2,12 +2,16 @@
 If you have landed at this repository directly, you first should read up on bit of a background [here](https://cse4589.github.io/).
 
 ## Introduction
-PA1 autograder itself runs as a distributed server-client application, with the server instances setup and deployed (one-off operation) by the course staff and client side distributed to the students/Teaching Assistants (TAs), which they can use to test the submission and get a score.
-The _Grader_ directory holds both the client and server components:
+PA1 autograder itself runs as a distributed server-client application, with the server instances deployed (one-time setup) by the course staff and the client side distributed to the students/Teaching Assistants (TAs), which they can use to test the submission and get a score.
 
-* _Grader/local_ hosts the client code
-* _Grader/remote_ hosts the server code
+The autograder takes as input, on the client side, the student source code which is first uploaded to each of the servers, built and then tested for a given test case.
+
+The [_Grader_](/Grader) directory holds both the client and server components (details below).
+
+The [_Template_](/Template) directory contains the source for the code template distributed to students (see ()[]).
 
 ## Server
+Server source, requirements and setup instructions are hosted under the [_Grader/remote_](/Grader/remote) directory. The server side is written completely in python and makes use of expect scripts to interact (I/O) with the submission being tested. When run, it exposes a HTTP server which the client uses for all communication.
 
 ## Client
+Client source (distributed to students) is hosted under the [_Grader/local_](/Grader/local) directory. Note that we at UB distribute the grader as a single executable binary, instead of the raw python source to avoid imposing any additional setup requirements on student machine environments. Setup instruction include steps to convert the python source to a linux executable. It should be possible to adapt the conversion process for any other OS the course staff wishes to support.
