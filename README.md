@@ -6,9 +6,9 @@ PA1 autograder itself runs as a distributed server-client application, with the 
 
 The autograder takes as input, on the client side, the student source code which is first uploaded to each of the servers, built and then tested for a given test case.
 
-The [_Grader_](/Grader) directory holds both the client and server components (details below).
+The [_Grader_](/Grader) directory holds both the client and server components.
 
-The [_Template_](/Template) directory contains the source for the code template distributed to students (see ()[]).
+The [_Template_](/Template) directory contains the source for the code template distributed to students (see [here](https://docs.google.com/document/d/1Rct0Hv8vmQc6Yub_3SH4ElDkly8rSgNnDKSjrChPjqw)).
 
 ## Server
 Server source, requirements and setup instructions are hosted under the [_Grader/remote_](/Grader/remote) directory. The server side is written completely in python and makes use of expect scripts to interact (I/O) with the submission being tested. When run, it exposes a HTTP server which the client uses for all communication.
