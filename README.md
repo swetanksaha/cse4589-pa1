@@ -15,3 +15,15 @@ Server source, requirements and setup instructions are hosted under the [_Grader
 
 ## Client
 Client (distributed to students) source is hosted under the [_Grader/local_](/Grader/local) directory. Note that we at UB distribute the grader as a single executable binary, instead of the raw python source files to avoid imposing any additional setup requirements on student machine environments. Setup instructions include steps to convert the python source to a linux executable. It should be possible fairly straightforward to adapt the conversion process for any other OS the course staff wishes to support.
+
+## University at Buffalo (UB)
+Setup instructions specific to UB are marked as:
+
+> ***
+>
+> ##### <img src="http://cse4589.github.io/assets/site/images/UB_BLU_RGB.png" width=30></img>
+> ....
+> ....
+> ***
+
+If you are setting up the grader inside UB CSE, you must read those parts of the setup guide carefully. If you are outside, you can safely skip these sections.

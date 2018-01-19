@@ -63,7 +63,7 @@ $ rm -rf /local/CSE489-GRADER/grading && mkdir /local/CSE489-GRADER/grading
 
 #### Notes
 * _dir-submission_ resides on a disk that is local to each server, so the directories need to created individually on each of the five servers.
-* You can decide to skip this step for now, if you plan to use the startup script mentioned later in the _**Start**_ section which takes care of folder creation.
+* You can decide to skip this step for now, if you plan to use the quick server startup script mentioned at very [end](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/remote#-4) of this guide in the [start](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/remote#start) section, which takes care of folder creation.
 ***
 
 ### Install
@@ -108,4 +108,4 @@ $ screen -d -m start_pa1_http_server.sh [port]
 
 #### Notes
 * The startup procedure needs to be repeated on all the grading servers.
-* Make note of the port number used to start the server. It will be used needed to configure the AutoGrader's client.
+* Make note of the port number used to start the server. It will be used to configure the AutoGrader's client.
