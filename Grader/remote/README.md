@@ -74,7 +74,7 @@ $ cd pa1_http_server
 $ git clone --no-checkout https://github.com/cse4589/cse4589-pa1.git
 $ cd cse4589_pa1
 $ git config core.sparseCheckout true
-$ echo 'Grader/remote/' >> .git/info/sparse-checkout
+$ echo 'HTTPLauncher' >> .git/info/sparse-checkout
 $ git checkout master
 ```
 
@@ -86,7 +86,8 @@ Since _dir-grader_ is shared among the five servers, this steps need to be follo
 ### Start
 The server can be started at port number [port] as follows:
 ```bash
-$ python /path/to/dir-grader/http_server/cse4589_pa1/HTTPLauncher/grader_launcher.py -p [port] -u /path/to/dir-submission/upload -g /path/to/dir-submission/grading
+$ cd HTTPLauncher
+$ python grader_launcher.py -p [port] -u /path/to/dir-submission/upload -g /path/to/dir-submission/grading
 ```
 
 #### Notes
