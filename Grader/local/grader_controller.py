@@ -27,6 +27,8 @@ import os
 import subprocess
 import time
 import random
+import traceback
+import threading
 
 import utils
 
@@ -47,6 +49,7 @@ if __name__ == '__main__':
     cfg = utils.readConfiguration(args.config[0])
 
     utils.print_regular('Initializing grading servers ...')
+
     utils.GRADING_SERVER_PORT = random.randint(55000, 65000)
     launcher_port = cfg.getint('HTTPLauncher', 'port')
     tarball = args.submission[0]
@@ -95,5 +98,6 @@ if __name__ == '__main__':
         # Wait for any left-over threads to finish
         while(len(threading.enumerate()) > 1): continue
 
-    import pa1_grader
-    getattr(pa1_grader, test_name)(binary)
+        # Kill remote servers
+        for server in utils.GRADING_SERVERS_HOSTNAME:
+            utils.doGET(server, launcher_port, {'action': 'terminate', 'port': str(utils.GRADING_SERVER_PORT)})
