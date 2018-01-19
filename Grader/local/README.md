@@ -2,7 +2,7 @@
 
 Note that you need to follow the instructions below only if you want to run the grader (client side) from source for debugging purposes or you are trying to package it into a binary for a non-Linux platform.
 
-Binary for the Linux-based OS is directly available for download [here](). Also, note that you don't to specifically provide this binary (or a link to download it) to the students. The main assignment description/handout, provided to students, already contains the download link and instructions for its usage.
+Binary for Linux-based OS is directly available for download [here](). Also, note that you don't to specifically provide this binary (or a link to download it) to the students. The main assignment description/handout, provided to students, already contains the download link and instructions for its usage.
 
 ## Setup
 ```bash
