@@ -18,14 +18,14 @@ $ git checkout master
 ```
 
 ## Configure
-Before the AutoGrader's client can talk to the server, it needs to be configured. 
+Before the AutoGrader's client can talk to the server, it needs to be configured.
 
 ## Run
 This step assumes that the five server instances are already setup and running. If the server component is not setup, please follow the steps listed [here](/Grader/remote).
 
 ```bash
 $ cd Grader/local
-$ ./grader_controller.py -c CONFIG -s STUDENT -t TEST
+$ ./grader_controller.py -c CONFIG -s SUBMISSION -t TEST [-nu] [-nb]
 ```
 
 ## Convert to Binary
