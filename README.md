@@ -14,7 +14,7 @@ The [_Template_](/Template) directory contains the source for the code template 
 Server source, requirements and setup instructions are hosted under the [_Grader/remote_](/Grader/remote) directory. The server side is written completely in python and makes use of expect scripts to interact (I/O) with the submission being tested. When run, it exposes a HTTP server which the client uses for all communication.
 
 ## Client
-Client (distributed to students) source is hosted under the [_Grader/local_](/Grader/local) directory. Note that we at UB distribute the grader as a single executable binary, instead of the raw python source files to avoid imposing any additional setup requirements on student machine environments. Setup instructions include steps to convert the python source to a linux executable. It should be possible fairly straightforward to adapt the conversion process for any other OS the course staff wishes to support.
+Client (distributed to students) source is hosted under the [_Grader/local_](/Grader/local) directory. Note that typically the client side of the grader is distributed as a single executable binary, instead of the raw python source files to avoid imposing any additional setup requirements on student machine environments. Setup instructions include steps to convert the python source to a Linux executable. It should be possible fairly straightforward to adapt the conversion process for any other OS the course staff wishes to support. In addition, we also include steps to run the grader directly from source to allow for easy debugging.
 
 ## University at Buffalo (UB)
 Setup instructions specific to UB are marked as:
