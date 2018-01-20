@@ -7,13 +7,13 @@ Typically, you do **NOT** need to specifically provide even the binary version (
 However, note that grader requires some configuration items (port number of the server, etc.) that need to be provided to the students (details below). Such configuration can be distributed to the students through typical course communication channels (piazza, course website, etc.).
 
 ## Setup
-You need to follow the steps below only if you want to run the grader from the source. If you are using the binary version, skip to the [Configure]() section.
+You need to follow the steps below only if you want to run the grader from the source. If you are using the binary version, skip to the [Configure](https://github.com/cse4589/cse4589-pa1/blob/master/Grader/local/README.md#configure) section.
 
 ```bash
 $ git clone --no-checkout https://github.com/cse4589/cse4589-pa1.git
 $ cd cse4589-pa1
 $ git config core.sparseCheckout true
-$ echo 'Grader/local/' >> .git/info/sparse-checkout
+$ echo 'Grader/local' >> .git/info/sparse-checkout
 $ git checkout master
 ```
 
@@ -58,3 +58,17 @@ $ ./grader_controller -c CONFIG -s SUBMISSION -t TEST [-nu] [-nb]
 ```
 
 ## Convert to Binary
+We make use of the [pyinstaller](http://www.pyinstaller.org/) package to convert AutoGrader's client side python scripts into a single executable binary.
+
+You need to first obtain the source of the grader, using instructions listed above under the [Setup](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/local#setup) section. To convert to binary, execute the following with the ```Grader/local/``` as the root directory.
+
+```bash
+$ pyinstaller --onefile grader_controller.py
+```
+
+If everything goes well, the executable named _grader_controller_ will be created ```Grader/local/dist``` directory. You can upload this binary and the grader.cfg to somewhere it can be publicly downloaded from.
+
+***
+##### <img src="http://cse4589.github.io/assets/site/images/UB_BLU_RGB.png" width=30></img>
+In all likelihood, there is no need for this conversion as pre-compiled binaries are already available for UB students to be downloaded. The download and setup is taken care by the template scripts which are documented in the assignment handout/description. Remember that students still **NEED** to be notified of the server's port number before they can use the AutoGrader.
+***
