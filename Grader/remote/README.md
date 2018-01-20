@@ -49,7 +49,7 @@ The server side of the grader is essentially a basic HTTP server that accepts co
 * **_upload_** where submissions will be uploaded
 * **_grading_** where submissions will be unpacked and built
 
-To create the two empty dirs, execute the following with _dir-grader_ as the root directory on each of the five hosts:
+To create the two empty dirs, execute the following with _dir-submission_ as the root directory on each of the five hosts:
 ```bash
 $ rm -rf upload && mkdir upload
 $ rm -rf grading && mkdir grading
@@ -72,8 +72,9 @@ Execute the following with _dir-grader_ as the root directory on each of the fiv
 $ mkdir pa1_http_server
 $ cd pa1_http_server
 $ git clone --no-checkout https://github.com/cse4589/cse4589-pa1.git
-$ cd cse4589_pa1
+$ cd cse4589-pa1
 $ git config core.sparseCheckout true
+$ echo 'Grader/remote' >> .git/info/sparse-checkout
 $ echo 'HTTPLauncher' >> .git/info/sparse-checkout
 $ git checkout master
 ```
@@ -101,10 +102,11 @@ $ python grader_launcher.py -p [port] -u /path/to/dir-submission/upload -g /path
 To make the server start/restart easier within UB CSE department, you can use our quick server startup script. To start the script on port number [port]:
 
 ```bash
-$ wget https://gist.githubusercontent.com/swetanksaha/bf1e0a1d0d0cc032facdab329f810399/raw/7370a50d5ee0b61e503d2e8002c60b0ca2c5d6ac/start_pa1_http_server.sh -O start_pa1_http_server.sh
+$ wget https://git.io/vNzaz -O start_pa1_http_server.sh
 $ chmod +x start_pa1_http_server.sh
-$ screen -d -m start_pa1_http_server.sh [port]
+$ screen -d -m /absolute/path/to/start_pa1_http_server.sh [port]
 ```
+
 ***
 
 #### Notes
