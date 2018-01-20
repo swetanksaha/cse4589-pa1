@@ -29,7 +29,7 @@ The grader requires the following two directories setup on each server:
 
 #### Notes
 * Both these directories should be created with appropriate permissions and should not be world read/write-able in any case.
-* Both _dir-grader_ and _dir-submission_ should be created at the same absolute on each server.
+* Both _dir-grader_ and _dir-submission_ should be created at the same absolute path on each server.
 * Once the directories are created, make a note of paths of both the directories. They will be required as configuration on the client side.
 
 ***
@@ -44,7 +44,7 @@ These paths are already setup for above listed UB CSE servers:
 * If you are an instructor/course staff trying to set this up, you might need to contact CSE-IT to be added to the group that has access to these directories
 ***
 
-The server side of the grader is essentially a basic HTTP server that accepts commands from the client side of the grader. AutoGrader's client side, however, first uploads the submission being tested on each of the servers. The servers upon receiving the uploaded submission locally unpack and build the submission (using the included Makefile) before it starts the grading process. The server, during startup expects path to two sub-folders located inside the _dir-submission_ directory created earlier:
+The server side of the grader is essentially a basic HTTP server that accepts commands from the client side of the grader. AutoGrader's client side, however, first uploads the submission being tested on each of the servers. The servers upon receiving the uploaded submission locally unpack and build the submission (using the included Makefile) before starting the grading process. The server, during startup expects path to two sub-folders located inside the _dir-submission_ directory created earlier:
 
 * **_upload_** where submissions will be uploaded
 * **_grading_** where submissions will be unpacked and built
@@ -62,7 +62,7 @@ $ rm -rf /local/CSE489-GRADER/grading && mkdir /local/CSE489-GRADER/grading
 ```
 
 #### Notes
-* _dir-submission_ resides on a disk that is local to each server, so the directories need to created individually on each of the five servers.
+* _dir-submission_ resides on a disk that is local to each server, so the directories need to be created individually on each of the five servers.
 * You can decide to skip this step for now, if you plan to use the quick server startup script mentioned at very [end](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/remote#-4) of this guide in the [start](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/remote#start) section, which takes care of folder creation.
 ***
 
@@ -93,7 +93,7 @@ $ python grader_launcher.py -p [port] -u /path/to/dir-submission/upload -g /path
 #### Notes
 * The server **MUST** be started by the same user that created all the directories OR permissions should be setup in such a way that the server process has read and write access to all the directories created above.
 * During grading, new processes will be spawned which will be owned by the user starting the server process. The user starting this process might end up with a large number of active processes if multiple submissions are tested at the same time.
-* This server needs to run indefinitely it needs to run indefinitely, you would typically run it in daemon/detached mode using something like the [screen](https://www.gnu.org/software/screen/) utility. You can look at the UB specific instructions below to get an idea and then adapt it for your installation.
+* This server needs to run indefinitely, you would typically run it in daemon/detached mode using something like the [screen](https://www.gnu.org/software/screen/) utility. You can look at the UB specific instructions below to get an idea and then adapt it for your installation.
 
 ***
 ##### <img src="http://cse4589.github.io/assets/site/images/UB_BLU_RGB.png" width=30></img>
