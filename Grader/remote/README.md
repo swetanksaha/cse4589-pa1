@@ -103,8 +103,9 @@ To make the server start/restart easier within UB CSE department, you can use ou
 ```bash
 $ wget https://git.io/vNzaz -O start_pa1_http_server.sh
 $ chmod +x start_pa1_http_server.sh
-$ screen -d -m start_pa1_http_server.sh [port]
+$ screen -d -m /absolute/path/to/start_pa1_http_server.sh [port]
 ```
+
 ***
 
 #### Notes
