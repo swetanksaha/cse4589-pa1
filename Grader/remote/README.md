@@ -101,7 +101,7 @@ $ python grader_launcher.py -p [port] -u /path/to/dir-submission/upload -g /path
 To make the server start/restart easier within UB CSE department, you can use our quick server startup script. To start the script on port number [port]:
 
 ```bash
-$ wget https://gist.githubusercontent.com/swetanksaha/bf1e0a1d0d0cc032facdab329f810399/raw/772bf9849b0977dfc0fde4f0eea9d8f72c008032/start_pa1_http_server.sh -O start_pa1_http_server.sh
+$ wget https://git.io/vNzaO -O start_pa1_http_server.sh
 $ chmod +x start_pa1_http_server.sh
 $ screen -d -m start_pa1_http_server.sh [port]
 ```
