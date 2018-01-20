@@ -23,18 +23,18 @@ Before the AutoGrader's client can talk to the server, it needs to be configured
 ### Configuration Options
 
 * [GradingServerList]
-**server-1 ... server-5** _FQDNs of the five grading host machines._
+* **server-1 ... server-5** _FQDNs of the five grading host machines._
 
 * [HTTPLauncher]
-**port** _Port number the AutoGrader server was started on._ This is the port number you used at the last [step](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/remote#start) in the server setup process.
+  * **port** _Port number the AutoGrader server was started on._ This is the port number you used at the last [step](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/remote#start) in the server setup process.
 
 * [GradingServer]
-**path-python** _Absolute path on the servers to a python installation_.
-**dir-grader** _Absolute path on the servers to the grader directory created during the server setup [steps](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/remote#directories)._
-**dir-submission** _Absolute path on the servers to the submission directory created during the server setup [steps](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/remote#directories)._
+  * **path-python** _Absolute path on the servers to a python installation_.
+  * **dir-grader** _Absolute path on the servers to the grader directory created during the server setup [steps](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/remote#directories)._
+  * **dir-submission** _Absolute path on the servers to the submission directory created during the server setup [steps](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/remote#directories)._
 
 * [Grader]
-**binary** _Filename of the binary created by the submission Makefile (default=assignment1)._ This is an internal grader property and does not require any changes to it.
+  * **binary** _Filename of the binary created by the submission Makefile (default=assignment1)._ This is an internal grader property and does not require any changes to it.
 
 ***
 ##### <img src="http://cse4589.github.io/assets/site/images/UB_BLU_RGB.png" width=30></img>
