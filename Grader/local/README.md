@@ -23,7 +23,7 @@ Before the AutoGrader's client can talk to the server, it needs to be configured
 ### Configuration Options
 
 * [GradingServerList]
-* **server-1 ... server-5** _FQDNs of the five grading host machines._
+  * **server-1 ... server-5** _FQDNs of the five grading host machines._
 
 * [HTTPLauncher]
   * **port** _Port number the AutoGrader server was started on._ This is the port number you used at the last [step](https://github.com/cse4589/cse4589-pa1/tree/master/Grader/remote#start) in the server setup process.
