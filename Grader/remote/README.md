@@ -74,6 +74,7 @@ $ cd pa1_http_server
 $ git clone --no-checkout https://github.com/cse4589/cse4589-pa1.git
 $ cd cse4589-pa1
 $ git config core.sparseCheckout true
+$ echo 'Grader/remote' >> .git/info/sparse-checkout
 $ echo 'HTTPLauncher' >> .git/info/sparse-checkout
 $ git checkout master
 ```
