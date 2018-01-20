@@ -11,7 +11,7 @@ The [_Grader_](/Grader) directory holds both the client and server components.
 The [_Template_](/Template) directory contains the source for the code template distributed to students (see [here](https://docs.google.com/document/d/1Rct0Hv8vmQc6Yub_3SH4ElDkly8rSgNnDKSjrChPjqw)).
 
 ## Server
-Server source, requirements and setup instructions are hosted under the [_Grader/remote_](/Grader/remote) directory. The server side is written completely in python and makes use of expect scripts to interact (I/O) with the submission being tested. When run, it exposes an HTTP server which the client uses for all communication.
+Server source, requirements, and setup instructions are hosted under the [_Grader/remote_](/Grader/remote) directory. The server side is written completely in python and makes use of expect scripts to interact (I/O) with the submission being tested. When run, it exposes an HTTP server which the client uses for all communication.
 
 ## Client
 Client (distributed to students) source is hosted under the [_Grader/local_](/Grader/local) directory. Note that typically the client side of the grader is distributed as a single executable binary, instead of the raw python source files to avoid imposing any additional setup requirements on student machine environments. Setup instructions include steps to convert the python source to a Linux executable. It should be fairly straightforward to adapt the conversion process for any other OS the course staff wishes to support. In addition, we also include steps to run the grader directly from source to allow for easy debugging.
