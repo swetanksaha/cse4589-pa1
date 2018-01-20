@@ -72,7 +72,7 @@ Execute the following with _dir-grader_ as the root directory on each of the fiv
 $ mkdir pa1_http_server
 $ cd pa1_http_server
 $ git clone --no-checkout https://github.com/cse4589/cse4589-pa1.git
-$ cd cse4589_pa1
+$ cd cse4589-pa1
 $ git config core.sparseCheckout true
 $ echo 'HTTPLauncher' >> .git/info/sparse-checkout
 $ git checkout master
@@ -101,7 +101,7 @@ $ python grader_launcher.py -p [port] -u /path/to/dir-submission/upload -g /path
 To make the server start/restart easier within UB CSE department, you can use our quick server startup script. To start the script on port number [port]:
 
 ```bash
-$ wget https://git.io/vNzaO -O start_pa1_http_server.sh
+$ wget https://git.io/vNzaz -O start_pa1_http_server.sh
 $ chmod +x start_pa1_http_server.sh
 $ screen -d -m start_pa1_http_server.sh [port]
 ```
