@@ -34,7 +34,7 @@ def print_regular(text):
 
 def get_grading_server_paths(config, student_type):
     grading_servers = [server[1] for server in config.items('GradingServerList')]
-    grading_dir = os.path.join(config.get('GradingServer', 'dir-local'), student_type)
+    grading_dir = os.path.join(config.get('GradingServer', 'dir-submission'), student_type)
     return [server+':'+grading_dir for server in grading_servers]
 
 def resolveIP(fqdn):
