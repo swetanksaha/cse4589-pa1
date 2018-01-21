@@ -25,10 +25,10 @@ The [_Template_](/Template) directory contains the source for the code template 
 * highgate.cse.buffalo.edu
 
 ### Student User Accounts and Work Directories
-Students should already have user accounts on the above hosts as they part of the UB CSE infrastructure.
+Students should already have user accounts on the above hosts as part of the UB CSE infrastructure.
 
-However, the home folders of students reside on a disk space that is shared among all CSE student servers. Given that PA1 involves implementation of file transfers, this makes home folders unsuitable for students to do development/testing of PA1. As a fix, CSE-IT creates directory for each student on a non-shared disk mounted at ```/local``` on each of the five hosts.
-Typically, the course instructor provides the list of students enrolled in the course each semester to CSE-IT and folders are created for each student.For example, for Fall 2017, the directory for a student with UB-IT name [ubitname] the work/test directory could be
+However, the home folders of students reside on a disk space that is shared among all CSE student servers. Given that PA1 involves implementation of file transfers, this makes home folders unsuitable for students to do development/testing of PA1. As a fix, CSE-IT creates a directory for each student on a non-shared disk mounted at ```/local``` on each of the five hosts.
+Typically, the course instructor provides the list of students enrolled in the course each semester to CSE-IT and folders are created for each student.For example, for Fall 2017, for a student with UB-IT name [ubitname] the work/test directory could be
 ```/local/Fall_2017/[ubitname]```
 
 #### Notes
