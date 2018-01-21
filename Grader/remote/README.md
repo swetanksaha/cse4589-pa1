@@ -1,22 +1,9 @@
 # CSE 4/589: PA1 AutoGrader [Server]
 
 ## Requirements
-
-* **Five(5)** Linux hosts/machines
-* Networking setup such that all the five hosts are _reachable_ from each other
 * GNU **make** and **GCC** toolchain for both C and C++
 * [**expect**](http://expect.sourceforge.net/)
 * **Python** 2.7 or higher (Python 3.x is not supported)
-
-***
-##### <img src="http://cse4589.github.io/assets/site/images/UB_BLU_RGB.png" width=30></img>
-List of UB CSE hosts:
-* stones.cse.buffalo.edu
-* euston.cse.buffalo.edu
-* embankment.cse.buffalo.edu
-* underground.cse.buffalo.edu
-* highgate.cse.buffalo.edu
-***
 
 ## Setup
 _The setup instructions below need to be repeated for each of the five grading hosts._
