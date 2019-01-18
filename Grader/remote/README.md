@@ -44,8 +44,8 @@ $ rm -rf grading && mkdir grading
 ***
 ##### <img src="http://cse4589.github.io/assets/site/images/UB_BLU_RGB.png" width=30></img>
 ```bash
-$ rm -rf /local/CSE489-GRADER/upload && mkdir /local/CSE489-GRADER/upload
-$ rm -rf /local/CSE489-GRADER/grading && mkdir /local/CSE489-GRADER/grading
+$ rm -rf /local/CSE489-GRADER/upload && mkdir /local/CSE489-GRADER/upload && chmod g+w,o-rwx /local/CSE489-GRADER/upload
+$ rm -rf /local/CSE489-GRADER/grading && mkdir /local/CSE489-GRADER/grading && chmod g+w,o-rwx /local/CSE489-GRADER/grading
 ```
 
 #### Notes
