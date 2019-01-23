@@ -17,17 +17,17 @@
 #
 
 git clone --no-checkout https://github.com/cse4589/cse4589-pa1.git
-cd cse4589_pa1 && git config core.sparseCheckout true && echo 'Grader/local/' >> .git/info/sparse-checkout && git checkout student && cd ..
+cd cse4589-pa1 && git config core.sparseCheckout true && echo 'Grader/local/' >> .git/info/sparse-checkout && git checkout student && cd ..
 
 # Build the executable
-pyinstaller --onefile cse4589_pa1/Grader/local/grader_controller.py
+pyinstaller --onefile cse4589-pa1/Grader/local/grader_controller.py
 
 # Copy the binary and configurations file
 cp dist/grader_controller grader/
-cp cse4589_pa1/Grader/local/grader.cfg grader/
+cp cse4589-pa1/Grader/local/grader.cfg grader/
 
 # Cleanup
 rm -rf build
 rm -rf dist
-rm -rf cse4589_pa1
+rm -rf cse4589-pa1
 rm grader_controller.spec
