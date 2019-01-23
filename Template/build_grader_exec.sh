@@ -16,7 +16,7 @@
 # License along with CSE 489/589 Grader. If not, see <http://www.gnu.org/licenses/>.
 #
 
-git clone -b student --no-checkout https://ubwins.cse.buffalo.edu/git/swetankk/cse4589_pa1.git
+git clone --no-checkout https://github.com/cse4589/cse4589-pa1.git
 cd cse4589_pa1 && git config core.sparseCheckout true && echo 'Grader/local/' >> .git/info/sparse-checkout && git checkout student && cd ..
 
 # Build the executable
